@@ -1,0 +1,76 @@
+.title {
+    text-align: center;
+}
+
+.upper {
+    display: flex;
+    margin: 5rem 35% 0;
+    height: auto;
+    align-items: end;
+    justify-content: center;
+}
+
+.submit-input {
+    margin-bottom: 5px;
+}
+
+.lower {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 35% 0;
+}
+
+.input-list-dynamic {
+    position: relative;
+    width: 20rem;
+    word-break: break-all;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    position: relative;
+    padding: 10px;
+    justify-content: space-between;
+    border-bottom: 0.5px black solid;
+}
+
+.removeButton {
+    padding: 5px;
+    
+}
+
+li:hover{
+    background-color: rgba(137, 43, 226, 0.28);
+}
+
+.hidden {
+    display: none;
+    justify-content: start;
+    margin: 0 35%;
+    padding: 0 5%;
+    height: 12px;
+}
+
+.error-msg {
+    display: block;
+    color: rgb(255, 37, 37);
+    margin-top: 0;
+    font-size: 12px;
+}
+
+.name-input {
+    display: block;
+    margin: 0 5px 5px;
+}
+
+.name-input {
+    display: block;
+    margin: 0 5px 5px;
+}
+
+.input-container {
+    display: flex;
+    justify-content: end;
+}
