@@ -4,34 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Counter Website</title>
+    <title>Modal Website</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
   </head>
   <body>
     <main>
-        <h1 class="title">Input List</h1>  
-        <div class="upper"> 
-            <form class="form-input">
-              <span class="input-container">
-                <label for="first-name-input">First Name:</label>
-                <input type="text" id="first-name-input" name="firstName" class="name-input">
-              </span>
-              <span class="input-container">
-                <label for="last-name-input"> Last Name:</label>
-                <input type="text" id="last-name-input" name="lastName" class="name-input">
-              </span>          
-            </form>
-            <button class="submit-input" onclick="appendNewItem()">Submit</button>
-        </div>
-        <div class="hidden">
-          <p class="error-msg">Error: Do not include digits</p>
-        </div>
-        <div class="lower">
-          <ul class="input-list-dynamic">
-          </ul>
+      <button class="modal-trigger">Enter Name</button>
+        <div class="modal">
+          <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header">
+              <h1 class="title">Input List</h1>
+            </div>
+            <div class="modal-body">
+              <div class="upper">
+                <form class="form-input">
+                  <span class="input-container">
+                    <label for="first-name-input">First Name:</label>
+                    <input type="text" id="first-name-input" name="firstName" class="name-input">
+                  </span>
+                  <span class="input-container">
+                    <label for="last-name-input"> Last Name:</label>
+                    <input type="text" id="last-name-input" name="lastName" class="name-input">
+                  </span>
+                </form>
+                <button class="submit-input" onclick="appendNewItem()">Submit</button>
+              </div>
+              <div class="hidden">
+                <p class="error-msg">Error: Do not include digits</p>
+              </div>
+              <div class="lower">
+                <ul class="input-list-dynamic">
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
     </main>
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
   </body>
 </html>

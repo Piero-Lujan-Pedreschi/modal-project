@@ -1,6 +1,10 @@
 const firstNameInput = document.querySelector('#first-name-input');
 const lastNameInput = document.querySelector('#last-name-input');
 const submitButton = document.querySelector('.submit-input');
+const modal = document.querySelector('.modal');
+const modalTriggerButton = document.querySelector('.modal-trigger');
+const modalCloseButton = document.querySelector('.modal-close');
+
 const inputList = document.querySelector('.input-list-dynamic');
 const errorMessage = document.querySelector('.hidden');
 
@@ -10,9 +14,17 @@ lastNameInput.placeholder = "Please enter last name";
 const arrayOfFullNames = JSON.parse(localStorage.getItem('arrayOfFullNames')) || [];
 loadListItems();
 
+modalTriggerButton.onclick = () => {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // prevent scrolling while modal is open
+};
+
+modalCloseButton.onclick = () => {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'initial';
+};
+
 function appendNewItem() {
-    const firstName = firstNameInput.value.trim(); 
-    const lastName = firstNameInput.value.trim();
     const fullName = assignFormNamesToObject();
 
     if (checkForm()) {
@@ -125,3 +137,4 @@ function handleNewListItem(object) {
     createButtonsInContainer(listItem);
     inputList.appendChild(listItem);
 }
+
