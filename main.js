@@ -1,12 +1,22 @@
 const firstNameInput = document.querySelector('#first-name-input');
 const lastNameInput = document.querySelector('#last-name-input');
+const genderInput = document.querySelectorAll('input[name="gender"]');
+const maleRadio = document.querySelector('#male-radio');
+const femaleRadio = document.querySelector('#female-radio');
+
+const ageInput = document.querySelector('#age-input');
+const birthdayInput = document.querySelector('#bday-input');
+// const fileInput = document.querySelector('#file-input');
 const submitButton = document.querySelector('.submit-input');
+
+
 const modal = document.querySelector('.modal');
 const modalTriggerButton = document.querySelector('.modal-trigger');
 const modalCloseButton = document.querySelector('.modal-close');
 
 const inputList = document.querySelector('.input-list-dynamic');
-const errorMessage = document.querySelector('.hidden');
+const textErrorMessage = document.querySelector('.hidden-text-input');
+const numErrorMessage = document.querySelector('.hidden-num-input');
 
 firstNameInput.placeholder = "Please enter first name";
 lastNameInput.placeholder = "Please enter last name";
@@ -35,6 +45,9 @@ function appendNewItem() {
     
     firstNameInput.value = '';
     lastNameInput.value = '';
+    ageInput.value = '';
+    birthdayInput.value = '';
+    uncheckRadio();
 }
 
 function createRemoveButton() {
@@ -59,25 +72,44 @@ function createEditButton() {
         const object = arrayOfFullNames[[...listItem.parentNode.children].indexOf(listItem)];     
         firstNameInput.value = object.firstName;
         lastNameInput.value = object.lastName;
+        ageInput.value = object.age;
+        birthdayInput.value = object.birthday;
+        repopulateRadio(object.gender);
         submitButton.onclick = () => {
-            object.firstName = firstNameInput.value
-            object.lastName = lastNameInput.value
+            object.firstName = firstNameInput.value;
+            object.lastName = lastNameInput.value;
+            object.age = ageInput.value;
+            object.birthday = birthdayInput.value;
+            object.gender = document.querySelector('input[name="gender"]:checked').value;
             localStorage.setItem('arrayOfFullNames', JSON.stringify(arrayOfFullNames));
-            listItem.firstChild.textContent = Object.values(object).join(' ');
+            listItem.firstChild.textContent = Object.values(object).join(' - ');
             submitButton.onclick = appendNewItem;
             firstNameInput.value = ''; 
             lastNameInput.value = '';
+            ageInput.value = '';
+            birthdayInput.value = '';
+            uncheckRadio();
         }
     }
     return editButton;
 }
 
 firstNameInput.addEventListener('input', () => {
-    if (/\d/.test(firstNameInput.value) || /\d/.test(lastNameInput.value)) {
-        errorMessage.style.display = "inline-block"
+    if (/\d/.test(firstNameInput.value)) {
+        textErrorMessage.style.display = "inline-block"
         submitButton.disabled = true;
     } else {
-        errorMessage.style.display = "none"
+        textErrorMessage.style.display = "none"
+        submitButton.disabled = false;
+    }
+});
+
+lastNameInput.addEventListener('input', () => {
+    if (/\d/.test(lastNameInput.value)) {
+        textErrorMessage.style.display = "inline-block"
+        submitButton.disabled = true;
+    } else {
+        textErrorMessage.style.display = "none"
         submitButton.disabled = false;
     }
 });
@@ -91,20 +123,20 @@ firstNameInput.addEventListener('input', () => {
 function assignFormNamesToObject() {
     const form = document.querySelector('.form-input');
     const formData = new FormData(form);
-    const namesObj = {};
+    const dataObj = {};
 
     for (const [key, value] of formData.entries()) {
-        namesObj[key] = value;
+        dataObj[key] = value;
     }
 
-    return namesObj;
+    return dataObj;
 }
 
 function loadListItems () {
     for (let i = 0; i < arrayOfFullNames.length; i++) {
         const listItem = document.createElement('li');
         listItem.setAttribute('class', 'list-item');
-        listItem.textContent = Object.values(arrayOfFullNames[i]).join(' ');
+        listItem.textContent = Object.values(arrayOfFullNames[i]).join(' - ');
         inputList.appendChild(listItem);
         createButtonsInContainer(listItem);
     }
@@ -113,8 +145,19 @@ function loadListItems () {
 function checkForm() {
     const firstName = firstNameInput.value;
     const lastName = lastNameInput.value;
+    const age = ageInput.value;
+    const birthday = birthdayInput.value;
 
-    if (firstName === '' || lastName === '') {
+    if (firstName === '') {
+        return false;
+    }
+    if (lastName === '') {
+        return false;
+    }
+    if (age === '') {
+        return false;
+    }
+    if (birthday === '') {
         return false;
     }
     return true;
@@ -131,10 +174,25 @@ function createButtonsInContainer(item) {
 function handleNewListItem(object) {
     const listItem = document.createElement('li');
     listItem.setAttribute('class', 'list-item');
-    listItem.textContent = Object.values(object).join(' ');
+    listItem.textContent = Object.values(object).join(' - ');
     arrayOfFullNames.push(object);
     localStorage.setItem('arrayOfFullNames', JSON.stringify(arrayOfFullNames));
     createButtonsInContainer(listItem);
     inputList.appendChild(listItem);
 }
 
+function uncheckRadio() {
+    for (const gender of genderInput) {
+        gender.checked = false;
+    }
+}
+
+
+function repopulateRadio(objValue) {
+    for (const gender of genderInput) {
+        if (gender.value === objValue) {
+            gender.checked = true;
+            break;
+        }
+    }
+}

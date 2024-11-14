@@ -50,7 +50,15 @@ li:hover{
     background-color: rgba(137, 43, 226, 0.28);
 }
 
-.hidden {
+.hidden-text-input {
+    display: none;
+    justify-content: start;
+    margin: 0 35%;
+    padding: 0 5%;
+    height: 12px;
+}
+
+.hidden-num-input {
     display: none;
     justify-content: start;
     margin: 0 35%;
@@ -65,18 +73,13 @@ li:hover{
     font-size: 12px;
 }
 
-.name-input {
-    display: block;
-    margin: 0 5px 5px;
-}
-
-.name-input {
+.input {
     display: block;
     margin: 0 5px 5px;
 }
 
 .input-container {
-    display: flex;
+    display: block;
     justify-content: end;
 }
 
@@ -95,7 +98,7 @@ li:hover{
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 100;
     overflow: auto;
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: flex-start;
 }
