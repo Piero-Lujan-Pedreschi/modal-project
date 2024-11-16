@@ -5,8 +5,6 @@ const lastNameInput = document.querySelector('#last-name-input');
 const genderInput = document.querySelectorAll('input[name="gender"]');
 const ageInput = document.querySelector('#age-input');
 const birthdayInput = document.querySelector('#bday-input');
-const resumeInput = document.querySelector('#resume-input');
-
 const submitButton = document.querySelector('.submit-input');
 
 
@@ -39,6 +37,8 @@ function appendNewItem() {
 
     if (checkForm()) {
         handleNewListItem(fullName);
+        arrayOfFullNames.push(fullName);
+        localStorage.setItem('arrayOfFullNames', JSON.stringify(arrayOfFullNames));
     } else {
         alert("Enter valid item");
     }
@@ -50,7 +50,7 @@ function createRemoveButton() {
     removeButton.setAttribute('class', 'remove-button');
     removeButton.textContent = "X";
     removeButton.onclick = (event) => {
-        const listItem = event.target.parentNode.parentNode;
+        const listItem = event.target.parentNode.parentNode.parentNode;
         arrayOfFullNames.splice([...listItem.parentNode.children].indexOf(listItem), 1);
         localStorage.setItem('arrayOfFullNames', JSON.stringify(arrayOfFullNames));
         inputList.removeChild(listItem);
@@ -123,13 +123,7 @@ function assignFormNamesToObject() {
 }
 
 function loadListItems () {
-    for (let i = 0; i < arrayOfFullNames.length; i++) {
-        const listItem = document.createElement('li');
-        listItem.setAttribute('class', 'list-item');
-        listItem.textContent = Object.values(arrayOfFullNames[i]).join(' - ');
-        inputList.appendChild(listItem);
-        createButtonsInContainer(listItem);
-    }
+    arrayOfFullNames.forEach(object => handleNewListItem(object));
 }
 
 function checkForm() {
@@ -138,10 +132,6 @@ function checkForm() {
     const age = ageInput.value;
     const birthday = birthdayInput.value;
     const gender = document.querySelector('input[name="gender"]:checked')?.value || null;
-    const resume = resumeInput.files.length;
-
-    const selectedFile = document.querySelector('#resume-input').files[0];
-    console.log(selectedFile);
 
     if (firstName === '') {
         return false;
@@ -158,9 +148,6 @@ function checkForm() {
     if (birthday === '') {
         return false;
     }
-    if (resume === 0) {
-        return false;
-    }
     return true;
 }
 
@@ -170,14 +157,21 @@ function createButtonsInContainer(item) {
     buttonContainer.appendChild(createEditButton());
     buttonContainer.appendChild(createRemoveButton());
     item.append(buttonContainer);
+    return buttonContainer;
 }
 
 function handleNewListItem(object) {
+    const linkContainer = document.createElement('a');
     const listItem = document.createElement('li');
+    linkContainer.setAttribute('href', '#');
+    linkContainer.setAttribute('target', '_blank');
     listItem.setAttribute('class', 'list-item');
-    listItem.textContent = Object.values(object).join(' - ');
-    arrayOfFullNames.push(object);
-    localStorage.setItem('arrayOfFullNames', JSON.stringify(arrayOfFullNames));
+    linkContainer.textContent = Object.values(object).join(' - ');
+    linkContainer.addEventListener('click', (event) => {
+        event.preventDefault();
+        createNewHTML(object);
+    });      
+    listItem.appendChild(linkContainer);
     createButtonsInContainer(listItem);
     inputList.appendChild(listItem);
 }
@@ -196,4 +190,42 @@ function repopulateRadio(objValue) {
             break;
         }
     }
+}
+
+function createNewHTML(object) {
+    const htmlContent = `
+        <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>List Item Details</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        padding: 20px;
+                        line-height: 1.6;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>List Item Details</h1>
+                <p>${Object.entries(object).map(([key, value]) => `${key}: ${value}`).join('<br>')}</p>
+                <a href="#" onclick="window.close()">Close</a>
+                <script src="secondary.js" type="module" defer></script>
+            </body>
+            </html>
+        `;
+    localStorage.setItem('htmlPage', htmlContent);
+
+    // const newWindow = window.open('', '_blank');
+    // if (newWindow) {
+    //     newWindow.document.write(htmlContent);
+    //     newWindow.document.close();
+    // } else {
+    //     alert('Popup blocked! Please allow popups for this website.')
+    // }
+    
+
+    loadSavedHTML();
 }

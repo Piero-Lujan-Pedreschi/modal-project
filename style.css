@@ -33,12 +33,22 @@ body {
     padding: 0;
 }
 
+ul {
+    position: absolute;
+}
+
 li {
     display: flex;
-    position: relative;
     padding: 10px;
     justify-content: space-between;
     border-bottom: 0.5px black solid;
+}
+
+a {
+    display: flex;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
 }
 
 .removeButton {
