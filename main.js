@@ -1,12 +1,12 @@
+const form = document.querySelector('.form-input');
+
 const firstNameInput = document.querySelector('#first-name-input');
 const lastNameInput = document.querySelector('#last-name-input');
 const genderInput = document.querySelectorAll('input[name="gender"]');
-const maleRadio = document.querySelector('#male-radio');
-const femaleRadio = document.querySelector('#female-radio');
-
 const ageInput = document.querySelector('#age-input');
 const birthdayInput = document.querySelector('#bday-input');
-// const fileInput = document.querySelector('#file-input');
+const resumeInput = document.querySelector('#resume-input');
+
 const submitButton = document.querySelector('.submit-input');
 
 
@@ -42,12 +42,7 @@ function appendNewItem() {
     } else {
         alert("Enter valid item");
     }
-    
-    firstNameInput.value = '';
-    lastNameInput.value = '';
-    ageInput.value = '';
-    birthdayInput.value = '';
-    uncheckRadio();
+    form.reset();
 }
 
 function createRemoveButton() {
@@ -84,11 +79,7 @@ function createEditButton() {
             localStorage.setItem('arrayOfFullNames', JSON.stringify(arrayOfFullNames));
             listItem.firstChild.textContent = Object.values(object).join(' - ');
             submitButton.onclick = appendNewItem;
-            firstNameInput.value = ''; 
-            lastNameInput.value = '';
-            ageInput.value = '';
-            birthdayInput.value = '';
-            uncheckRadio();
+            form.reset();
         }
     }
     return editButton;
@@ -121,7 +112,6 @@ lastNameInput.addEventListener('input', () => {
 // });
 
 function assignFormNamesToObject() {
-    const form = document.querySelector('.form-input');
     const formData = new FormData(form);
     const dataObj = {};
 
@@ -147,6 +137,11 @@ function checkForm() {
     const lastName = lastNameInput.value;
     const age = ageInput.value;
     const birthday = birthdayInput.value;
+    const gender = document.querySelector('input[name="gender"]:checked')?.value || null;
+    const resume = resumeInput.files.length;
+
+    const selectedFile = document.querySelector('#resume-input').files[0];
+    console.log(selectedFile);
 
     if (firstName === '') {
         return false;
@@ -154,10 +149,16 @@ function checkForm() {
     if (lastName === '') {
         return false;
     }
+    if (gender === null) {
+        return false;
+    }
     if (age === '') {
         return false;
     }
     if (birthday === '') {
+        return false;
+    }
+    if (resume === 0) {
         return false;
     }
     return true;
