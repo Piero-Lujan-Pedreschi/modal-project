@@ -50,10 +50,11 @@ function createRemoveButton() {
     removeButton.setAttribute('class', 'remove-button');
     removeButton.textContent = "X";
     removeButton.onclick = (event) => {
-        const listItem = event.target.parentNode.parentNode.parentNode;
+        const listItem = event.target.parentNode.parentNode;
         arrayOfFullNames.splice([...listItem.parentNode.children].indexOf(listItem), 1);
         localStorage.setItem('arrayOfFullNames', JSON.stringify(arrayOfFullNames));
         inputList.removeChild(listItem);
+        console.log("removed");
     };
     return removeButton;
 }

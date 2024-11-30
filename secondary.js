@@ -1,7 +1,7 @@
 loadSavedHTML();
 console.log('hello');
 
-export function loadSavedHTML() {
+function loadSavedHTML() {
     const savedHTML = localStorage.getItem('htmlPage');
     console.log(savedHTML);
     if (savedHTML) {
@@ -16,3 +16,5 @@ export function loadSavedHTML() {
         alert('No HTML content found in local storage')
     }
 }
+
+
